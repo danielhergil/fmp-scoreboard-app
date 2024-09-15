@@ -12,7 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TEAM_STORAGE_KEY = "@teams_list"; // Key for storing teams in AsyncStorage
 
-const Scoreboard_Team = () => {
+const Scoreboard_Team = ({ teamNumber, onTeamSelect }) => {
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("");
   const [isOtherSelected, setIsOtherSelected] = useState(false);
@@ -39,6 +39,7 @@ const Scoreboard_Team = () => {
 
   const handleTeamSelection = (value) => {
     setSelectedTeam(value);
+    onTeamSelect(value); // Pass selected team name to parent component
     if (value === "Other") {
       setIsOtherSelected(true);
     } else {
@@ -63,8 +64,9 @@ const Scoreboard_Team = () => {
       const updatedTeams = [...teams, newTeam];
       setTeams(updatedTeams);
       setSelectedTeam(newTeam.name);
-      setOtherTeam("");
       setIsOtherSelected(false);
+      setOtherTeam("");
+      onTeamSelect(newTeam.name); // Pass the new team name to parent
 
       try {
         await AsyncStorage.setItem(
@@ -80,7 +82,7 @@ const Scoreboard_Team = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Añadir Equipo 1 al marcador</Text>
+      <Text style={styles.title}>Añadir Equipo {teamNumber} al marcador</Text>
 
       {/* Dropdown for team selection */}
       <Picker

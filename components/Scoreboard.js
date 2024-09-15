@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import Scoreboard_Team from "./Scoreboard_Team";
 import { useNavigation } from "@react-navigation/native";
@@ -6,10 +6,19 @@ import { useNavigation } from "@react-navigation/native";
 const Scoreboard = () => {
   const navigation = useNavigation();
 
+  const [team1, setTeam1] = useState("");
+  const [team2, setTeam2] = useState("");
+
+  const handleCreateScoreboard = () => {
+    // Pass the team names to the next screen (or store globally as needed)
+    navigation.navigate("ScoreboardSetup", { team1, team2 });
+  };
+
   return (
     <View style={styles.container}>
       {/* Empty space to fill the area below the header */}
-      <Scoreboard_Team />
+      <Scoreboard_Team teamNumber={1} onTeamSelect={setTeam1} />
+      <Scoreboard_Team teamNumber={2} onTeamSelect={setTeam2} />
       <View style={styles.content} />
       {/* Buttons at the footer */}
       <View style={styles.footer}>
@@ -24,7 +33,8 @@ const Scoreboard = () => {
         {/* Primary Button (Crear marcador) */}
         <TouchableOpacity
           style={styles.primaryButton}
-          onPress={() => console.log("Crear marcador pressed")} // Placeholder for action
+          onPress={handleCreateScoreboard}
+          disabled={team1 === "" || team2 === ""} // Disable until both teams are selected
         >
           <Text style={styles.primaryButtonText}>Crear marcador</Text>
         </TouchableOpacity>
