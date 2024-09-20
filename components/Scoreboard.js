@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import Scoreboard_Team from "./Scoreboard_Team";
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,76 +18,88 @@ const Scoreboard = () => {
   const [team2, setTeam2] = useState("");
 
   const handleCreateScoreboard = () => {
-    // Pass the team names to the next screen (or store globally as needed)
     navigation.navigate("ScoreboardSetup", { team1, team2 });
   };
 
   return (
-    <View style={styles.container}>
-      {/* Empty space to fill the area below the header */}
-      <Scoreboard_Team teamNumber={1} onTeamSelect={setTeam1} />
-      <Scoreboard_Team teamNumber={2} onTeamSelect={setTeam2} />
-      <View style={styles.content} />
-      {/* Buttons at the footer */}
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      {/* Scrollable content */}
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* First Team */}
+        <Scoreboard_Team teamNumber={1} onTeamSelect={setTeam1} />
+
+        {/* Second Team */}
+        <Scoreboard_Team teamNumber={2} onTeamSelect={setTeam2} />
+      </ScrollView>
+
+      {/* Footer with fixed position */}
       <View style={styles.footer}>
         {/* Secondary Button (Volver) */}
-        <TouchableOpacity
-          style={styles.secondaryButton}
-          onPress={() => navigation.goBack()} // Navigate back to Home
-        >
+        <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.goBack()}>
           <Text style={styles.secondaryButtonText}>Volver</Text>
         </TouchableOpacity>
 
         {/* Primary Button (Crear marcador) */}
         <TouchableOpacity
-          style={styles.primaryButton}
+          style={[
+            styles.primaryButton,
+            { backgroundColor: team1 && team2 ? "#d53030" : "#d3d3d3" }, // Disable button color if teams are not selected
+          ]}
           onPress={handleCreateScoreboard}
-          disabled={team1 === "" || team2 === ""} // Disable until both teams are selected
+          disabled={team1 === "" || team2 === ""}
         >
           <Text style={styles.primaryButtonText}>Crear marcador</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between", // Ensure the footer is pushed to the bottom
+    justifyContent: "space-between",
     backgroundColor: "#fff",
   },
-  content: {
-    flex: 1, // Fill the space between the header and footer
+  scrollViewContent: {
+    paddingHorizontal: 20, // Add padding around the scrollable content
+    paddingVertical: 20, // Ensure there is padding above and below the form elements
+    flexGrow: 1,
   },
   footer: {
     flexDirection: "row",
-    justifyContent: "space-between", // Space between buttons
-    paddingHorizontal: 20, // Padding around the footer
-    paddingBottom: 20, // Add padding at the bottom
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    backgroundColor: "#fff",
   },
   secondaryButton: {
     width: "40%",
-    backgroundColor: "#d3d3d3", // Light grey for secondary button
+    backgroundColor: "#d3d3d3",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 10, // Slightly rounded corners
+    borderRadius: 10,
   },
   secondaryButtonText: {
-    color: "#000", // Black text color for secondary button
+    color: "#000",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
   primaryButton: {
     width: "40%",
-    backgroundColor: "#d53030", // Primary button (same as "Crear nuevo marcador")
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
   },
   primaryButtonText: {
-    color: "#fff", // White text for primary button
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
