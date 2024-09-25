@@ -1,0 +1,180 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Modern Scoreboard</title>
+        <style>
+          @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+          body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ececec;
+            font-family: "Poppins", sans-serif;
+          }
+
+          .scoreboard {
+            display: grid;
+            grid-template-rows: 50px 150px 50px;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            background-color: #2c2c2c;
+            color: white;
+            border-radius: 15px;
+            width: 80%;
+            position: relative;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+          }
+
+          .period {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            background-color: #333;
+            color: #fff;
+            letter-spacing: 1px;
+            font-weight: 600;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+          }
+
+          .team-logo-left,
+          .team-logo-right {
+            position: absolute;
+            top: 55px;
+            width: 100px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+          }
+
+          .team-logo-left {
+            left: -110px;
+          }
+
+          .team-logo-right {
+            right: -110px;
+          }
+
+          .team-logo img {
+            max-width: 90%;
+            height: auto;
+            object-fit: contain;
+          }
+
+          .team-names-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            font-size: 32px;
+            background-color: #444;
+            padding: 15px;
+            color: #fff;
+            border-radius: 10px;
+          }
+
+          .team-name {
+            display: flex;
+            align-items: center;
+            font-size: 36px;
+            font-weight: 600;
+            padding: 0 10px;
+            color: #e0e0e0;
+          }
+
+          .score {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            color: #fff;
+            background-color: #5d8a6e;
+            padding: 0 40px;
+            border-radius: 8px;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.15);
+          }
+
+          .fouls {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 24px;
+            background-color: #333;
+            padding: 15px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            color: #fff;
+          }
+
+          .fouls span {
+            font-weight: 600;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="scoreboard">
+          <!-- Period -->
+          <div class="period" id="period">PERIODO 1</div>
+
+          <!-- Team 1 logo (outside row width) -->
+          <div class="team-logo team-logo-left">
+            
+          </div>
+
+          <!-- Team names and score (row 2 with logo width included) -->
+          <div class="team-names-score">
+            <div class="team-name" id="team1-name"></div>
+            <div class="score" id="score">0 - 0</div>
+            <div class="team-name" id="team2-name"></div>
+          </div>
+
+          <!-- Team 2 logo (outside row width) -->
+          <div class="team-logo team-logo-right">
+          
+          </div>
+
+          <!-- Fouls -->
+          <div class="fouls">
+            <span id="team1-fouls">0</span>
+            <span>FALTAS</span>
+            <span id="team2-fouls">0</span>
+          </div>
+        </div>
+        <script>
+          const fetchData = async () => {
+            try {
+              const response = await fetch(server_to_replace);
+              const data = await response.json();
+
+              // Update scoreboard elements
+              document.getElementById('team1-name').innerText = data.team1Name;
+              document.getElementById('team2-name').innerText = data.team2Name;
+              document.getElementById('score').innerText = data.team1Score + " - " + data.team2Score;
+              document.getElementById('period').innerText = "PERIODO " + data.period;
+
+              // Update fouls only if configured to show
+              if (true) {
+                document.getElementById('team1-fouls').innerText = data.team1Fouls;
+                document.getElementById('team2-fouls').innerText = data.team2Fouls;
+              }
+            } catch (error) {
+              console.error('Error fetching scoreboard data:', error);
+            }
+          };
+
+          // Fetch data every 3 seconds
+          setInterval(fetchData, 3000);
+        </script>
+      </body>
+    </html>
+  
