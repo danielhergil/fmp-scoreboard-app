@@ -9,115 +9,114 @@
           @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
           body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
             background-color: transparent;
-            font-family: "Poppins", sans-serif;
+            font-family: 'Poppins', sans-serif;
           }
 
           .scoreboard {
-            display: grid;
-            grid-template-rows: 50px 150px 50px;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            background-color: transparent;
-            color: white;
-            border-radius: 15px;
-            width: 80%;
-            position: relative;
-            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+              display: grid;
+              grid-template-rows: 40px 100px 40px;
+              grid-template-columns: 1fr;
+              gap: 5px;
+              background-color: transparent;
+              color: white;
+              width: 300px; /* Adjusted width to fit in the corner */
+              position: fixed;
+              top: 10px; /* Positioned in the top-left corner */
+              left: 10px;
+              z-index: 9999;
           }
 
+          /* Period - Row 1 */
           .period {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            background-color: #333;
-            color: #fff;
-            letter-spacing: 1px;
-            font-weight: 600;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 16px;
+              background-color: rgba(51, 51, 51, 0.8); /* Slight transparency */
+              color: #fff;
+              letter-spacing: 1px;
+              font-weight: 600;
+              border-top-left-radius: 10px;
+              border-top-right-radius: 10px;
           }
 
-          .team-logo-left,
-          .team-logo-right {
-            position: absolute;
-            top: 55px;
-            width: 100px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f5f5f5;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+          /* Team logos */
+          .team-logo-left, .team-logo-right {
+              position: absolute;
+              top: 50px;
+              width: 50px; /* Smaller logos */
+              height: 100px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: transparent;
           }
 
           .team-logo-left {
-            left: -110px;
+              left: -60px;
           }
 
           .team-logo-right {
-            right: -110px;
+              right: -60px;
           }
 
           .team-logo img {
-            max-width: 90%;
-            height: auto;
-            object-fit: contain;
+              max-width: 90%;
+              height: auto;
+              object-fit: contain;
           }
 
+          /* Team names and scores - Row 2 */
           .team-names-score {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            font-size: 32px;
-            background-color: #444;
-            padding: 15px;
-            color: #fff;
-            border-radius: 10px;
+              display: flex;
+              justify-content: space-between;
+              align-items: stretch;
+              font-size: 24px;
+              background-color: rgba(68, 68, 68, 0.8); /* Slight transparency */
+              padding: 10px;
+              color: #fff;
+              border-radius: 10px;
           }
 
           .team-name {
-            display: flex;
-            align-items: center;
-            font-size: 36px;
-            font-weight: 600;
-            padding: 0 10px;
-            color: #e0e0e0;
+              display: flex;
+              align-items: center;
+              font-size: 24px;
+              font-weight: 600;
+              padding: 0 10px;
+              color: #e0e0e0;
           }
 
           .score {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 48px;
-            color: #fff;
-            background-color: #5d8a6e;
-            padding: 0 40px;
-            border-radius: 8px;
-            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.15);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 36px;
+              color: #fff;
+              background-color: rgba(93, 138, 110, 0.8); /* Slight transparency */
+              padding: 0 20px;
+              border-radius: 8px;
+              flex-grow: 1;
+              box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.15);
           }
 
+          /* Fouls - Row 3 */
           .fouls {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            font-size: 24px;
-            background-color: #333;
-            padding: 15px;
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            color: #fff;
+              display: flex;
+              justify-content: space-around;
+              align-items: center;
+              font-size: 16px;
+              background-color: rgba(51, 51, 51, 0.8); /* Slight transparency */
+              padding: 10px;
+              border-bottom-left-radius: 10px;
+              border-bottom-right-radius: 10px;
+              color: #fff;
           }
 
           .fouls span {
-            font-weight: 600;
+              font-weight: 600;
           }
         </style>
       </head>
@@ -135,12 +134,12 @@
           <div class="team-names-score">
             <div class="team-name" id="team1-name">ALCR</div>
             <div class="score" id="score">0 - 0</div>
-            <div class="team-name" id="team2-name">RIV</div>
+            <div class="team-name" id="team2-name">COS</div>
           </div>
 
           <!-- Team 2 logo (outside row width) -->
           <div class="team-logo team-logo-right">
-          <img src="team2Logo.png" alt="RIV" style="width:70px;height:70px;">
+          <img src="team2Logo.png" alt="COS" style="width:70px;height:70px;">
           </div>
 
           <!-- Fouls -->
