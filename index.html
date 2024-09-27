@@ -135,9 +135,9 @@
 
           <!-- Team names and score (row 2 with logo width included) -->
           <div class="team-names-score">
-            <div class="team-name" id="team1-name">ALCR</div>
+            <div class="team-name" id="team1-name">CAS</div>
             <div class="score" id="score">0 - 0</div>
-            <div class="team-name" id="team2-name">RIV</div>
+            <div class="team-name" id="team2-name">RET</div>
           </div>
 
           <!-- Team 2 logo (outside row width) -->
@@ -147,9 +147,9 @@
 
           <!-- Fouls -->
           <div class="fouls">
-            <span id="team1-fouls">0</span>
-            <span>FALTAS</span>
-            <span id="team2-fouls">0</span>
+            
+            
+            
           </div>
         </div>
         <script>
@@ -165,7 +165,7 @@
               document.getElementById('period').innerText = "PERIODO " + data.period;
 
               // Update fouls only if configured to show
-              if (true) {
+              if (false) {
                 document.getElementById('team1-fouls').innerText = data.team1Fouls;
                 document.getElementById('team2-fouls').innerText = data.team2Fouls;
               }
