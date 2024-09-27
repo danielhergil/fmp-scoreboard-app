@@ -126,30 +126,26 @@
       <body>
         <div class="scoreboard">
           <!-- Period -->
-          <div class="period" id="period">PERIODO 1</div>
+          <div class="period" id="period">PERIODO</div>
 
           <!-- Team 1 logo (outside row width) -->
-          <div class="team-logo team-logo-left">
-            <img src="team1Logo.png" alt="ALCA" style="width:90px;height:90px;">
-          </div>
+          <div class="team-logo team-logo-left" id="team1-logo"></div>
 
           <!-- Team names and score (row 2 with logo width included) -->
           <div class="team-names-score">
-            <div class="team-name" id="team1-name">ALCA</div>
-            <div class="score" id="score">0 - 0</div>
-            <div class="team-name" id="team2-name">RIV</div>
+            <div class="team-name" id="team1-name"></div>
+            <div class="score" id="score"></div>
+            <div class="team-name" id="team2-name"></div>
           </div>
 
           <!-- Team 2 logo (outside row width) -->
-          <div class="team-logo team-logo-right">
-          <img src="team2Logo.png" alt="RIV" style="width:90px;height:90px;">
-          </div>
+          <div class="team-logo team-logo-right" id="team2-logo"></div>
 
           <!-- Fouls -->
-          <div class="fouls">
-            <span id="team1-fouls">0</span>
-            <span>FALTAS</span>
-            <span id="team2-fouls">0</span>
+          <div class="fouls" id="fouls-section">
+            <span id="team1-fouls"></span>
+            <span id="fouls-label"></span>
+            <span id="team2-fouls"></span>
           </div>
         </div>
         <script>
@@ -159,15 +155,16 @@
               const data = await response.json();
 
               // Update scoreboard elements
-              document.getElementById('team1-name').innerText = data.team1Name;
-              document.getElementById('team2-name').innerText = data.team2Name;
-              document.getElementById('score').innerText = data.team1Score + " - " + data.team2Score;
-              document.getElementById('period').innerText = "PERIODO " + data.period;
+              document.getElementById('team1-name').innerText = data.team1Name || 'Team 1';
+              document.getElementById('team2-name').innerText = data.team2Name || 'Team 2';
+              document.getElementById('score').innerText = data.team1Score + " - " + data.team2Score; // String concatenation
+              document.getElementById('period').innerText = "PERIODO " + data.period; // String concatenation
 
-              // Update fouls only if configured to show
-              if (true) {
-                document.getElementById('team1-fouls').innerText = data.team1Fouls;
-                document.getElementById('team2-fouls').innerText = data.team2Fouls;
+              // Update fouls if necessary
+              if (data.faltas1 !== undefined && data.faltas2 !== undefined) {
+                document.getElementById('team1-fouls').innerText = data.faltas1;
+                document.getElementById('team2-fouls').innerText = data.faltas2;
+                document.getElementById('fouls-label').innerText = "FALTAS";
               }
             } catch (error) {
               console.error('Error fetching scoreboard data:', error);
