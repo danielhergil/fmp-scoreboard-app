@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import Scoreboard from "./components/Scoreboard";
 import Scoreboard_Setup from "./components/Scoreboard_Setup";
 import Header from "./components/Header";
+import Scoreboard_Control from "./components/Scoreboard_Control";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,11 @@ export default function App() {
           name="ScoreboardSetup"
           component={Scoreboard_Setup}
           options={{ title: "Configurar marcador" }}
+        />
+        <Stack.Screen
+          name="Scoreboard_Control"
+          component={Scoreboard_Control}
+          options={{ title: "Control marcador" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

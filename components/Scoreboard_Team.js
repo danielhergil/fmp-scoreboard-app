@@ -45,14 +45,29 @@ const Scoreboard_Team = ({ teamNumber, onTeamSelect }) => {
       try {
         const storedTeams = await AsyncStorage.getItem(TEAM_STORAGE_KEY);
         if (storedTeams !== null) {
-          setTeams(JSON.parse(storedTeams)); // Load saved teams
+          const parsedTeams = JSON.parse(storedTeams);
+          // console.log("Teams loaded from AsyncStorage:", parsedTeams);
+          setTeams(parsedTeams);
         } else {
           const teamsData = require("../assets/data/teams.json"); // Load from JSON if no saved data
+          // console.log("Teams loaded from JSON file:", teamsData);
           setTeams(teamsData);
+          console.log("Teams" + teams);
         }
       } catch (error) {
         console.error("Error loading teams:", error);
       }
+      // try {
+      //   const storedTeams = await AsyncStorage.getItem(TEAM_STORAGE_KEY);
+      //   if (storedTeams !== null) {
+      //     setTeams(JSON.parse(storedTeams)); // Load saved teams
+      //   } else {
+      //     const teamsData = require("../assets/data/teams.json"); // Load from JSON if no saved data
+      //     setTeams(teamsData);
+      //   }
+      // } catch (error) {
+      //   console.error("Error loading teams:", error);
+      // }
     };
     loadTeams();
   }, []);
