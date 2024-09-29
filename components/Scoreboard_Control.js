@@ -29,7 +29,7 @@ const Scoreboard_Control = ({ route }) => {
       const team1LogoUrl = `${githubApiBaseUrl}team1Logo.png`;
       const team1LogoResponse = await fetch(team1LogoUrl, {
         headers: {
-          Authorization: `Bearer ${git_pat}`,
+          Authorization: `Bearer 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`,
         },
       });
       const team1LogoData = await team1LogoResponse.json();
@@ -40,7 +40,7 @@ const Scoreboard_Control = ({ route }) => {
       const team2LogoUrl = `${githubApiBaseUrl}team2Logo.png`;
       const team2LogoResponse = await fetch(team2LogoUrl, {
         headers: {
-          Authorization: `Bearer ${git_pat}`,
+          Authorization: `Bearer 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`,
         },
       });
       const team2LogoData = await team2LogoResponse.json();

@@ -353,7 +353,7 @@ const Scoreboard_Setup = ({ route }) => {
       const getFileResponse = await fetch(`${githubApiUrl}?ref=${branch}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${gitPat}`,
+          Authorization: `Bearer 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`,
           Accept: "application/vnd.github.v3+json",
         },
       });
@@ -385,7 +385,7 @@ const Scoreboard_Setup = ({ route }) => {
     const uploadResponse = await fetch(githubApiUrl, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${gitPat}`,
+        Authorization: `Bearer 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`,
         Accept: "application/vnd.github.v3+json",
       },
       body: JSON.stringify({

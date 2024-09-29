@@ -30,7 +30,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.daniel.hergil.fmpscoreboardapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
