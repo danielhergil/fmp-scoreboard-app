@@ -137,12 +137,12 @@
           <div class="team-names-score">
             <div class="team-name" id="team1-name">ALB</div>
             <div class="score" id="score">0 - 0</div>
-            <div class="team-name" id="team2-name">RIV A</div>
+            <div class="team-name" id="team2-name">RIV</div>
           </div>
 
           <!-- Team 2 logo (outside row width) -->
           <div class="team-logo team-logo-right">
-          <img src="team2Logo.png" alt="RIV A" style="width:90px;height:90px;">
+          <img src="team2Logo.png" alt="RIV" style="width:90px;height:90px;">
           </div>
 
           <!-- Fouls -->
@@ -155,7 +155,8 @@
         <script>
           const fetchData = async () => {
             try {
-              const response = await fetch("https://fmp-scoreboard-back.onrender.com/api/scoreboard?v=" + new Date().getTime());
+              const response = await fetch("https://fmp-scoreboard-back.onrender.com/api/scoreboard
+?v=" + new Date().getTime());
               const data = await response.json();
 
               // Update scoreboard elements
