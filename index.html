@@ -106,7 +106,7 @@
 
           /* Fouls - Row 3 */
           .fouls {
-              display: flex;
+              display: none;
               justify-content: space-around;
               align-items: center;
               font-size: 10px;
@@ -147,15 +147,16 @@
 
           <!-- Fouls -->
           <div class="fouls">
-            <span id="team1-fouls">0</span>
-            <span>FALTAS</span>
-            <span id="team2-fouls">0</span>
+            
+            
+            
           </div>
         </div>
         <script>
           const fetchData = async () => {
             try {
-              const response = await fetch("https://fmp-scoreboard-back.onrender.com/api/scoreboard?v=" + new Date().getTime());
+              const response = await fetch("https://fmp-scoreboard-back.onrender.com/api/scoreboard
+?v=" + new Date().getTime());
               const data = await response.json();
 
               // Update scoreboard elements
