@@ -130,19 +130,19 @@
 
           <!-- Team 1 logo (outside row width) -->
           <div class="team-logo team-logo-left">
-            <img src="team1Logo.png" alt="AOA" style="width:90px;height:90px;">
+            <img src="team1Logo.png" alt="ALD" style="width:90px;height:90px;">
           </div>
 
           <!-- Team names and score (row 2 with logo width included) -->
           <div class="team-names-score">
-            <div class="team-name" id="team1-name">AOA</div>
+            <div class="team-name" id="team1-name">ALD</div>
             <div class="score" id="score">0 - 0</div>
-            <div class="team-name" id="team2-name">ROZ</div>
+            <div class="team-name" id="team2-name">GRD</div>
           </div>
 
           <!-- Team 2 logo (outside row width) -->
           <div class="team-logo team-logo-right">
-          <img src="team2Logo.png" alt="ROZ" style="width:90px;height:90px;">
+          <img src="team2Logo.png" alt="GRD" style="width:90px;height:90px;">
           </div>
 
           <!-- Fouls -->
@@ -155,7 +155,7 @@
         <script>
           const fetchData = async () => {
             try {
-              const response = await fetch("https://danielhergil.github.io/fmp-scoreboard-app/?v=" + new Date().getTime());
+              const response = await fetch("https://fmp-scoreboard-back.onrender.com/api/scoreboar?v=" + new Date().getTime());
               const data = await response.json();
 
               // Update scoreboard elements
