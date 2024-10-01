@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
-import * as FileSystem from "expo-file-system";
 import { Image as ExpoImage } from "expo-image";
 
 // Load credentials from a local JSON file

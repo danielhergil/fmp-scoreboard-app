@@ -205,7 +205,6 @@ const generateHTMLContent = (
               if (data.faltas1 !== undefined && data.faltas2 !== undefined) {
                 document.getElementById("team1-fouls").innerText = data.faltas1;
                 document.getElementById("team2-fouls").innerText = data.faltas2;
-                document.getElementById("fouls-label").innerText = "FALTAS";
               }
             } catch (error) {
               console.error("Error fetching scoreboard data:", error);
