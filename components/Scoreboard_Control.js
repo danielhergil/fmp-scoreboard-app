@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import * as FileSystem from "expo-file-system";
 import { Image as ExpoImage } from "expo-image";
 
 // Load credentials from a local JSON file
@@ -24,34 +25,37 @@ const Scoreboard_Control = ({ route }) => {
   const loadGitHubImages = async () => {
     try {
       const { git_user, git_repo, git_pat } = creds;
-      const githubApiBaseUrl = `https://api.github.com/repos/${git_user}/${git_repo}/contents/`;
+      const githubApiBaseUrl = `https://raw.githubusercontent.com/${git_user}/${git_repo}/master/`;
 
       // Fetch team1Logo.png
       const team1LogoUrl = `${githubApiBaseUrl}team1Logo.png?timestamp=${new Date().getTime()}`;
-      console.log("TEAMLOGO URL: " + team1LogoUrl);
-      const team1LogoResponse = await fetch(team1LogoUrl, {
-        headers: {
-          Authorization: `Bearer ${git_pat}`,
-          "Cache-Control": "no-cache", // Force no cache
-          Pragma: "no-cache", // Ensure no cache on legacy proxies
-        },
-      });
-      const team1LogoData = await team1LogoResponse.json();
-      const team1LogoImageUrl = `${team1LogoData.download_url}?timestamp=${new Date().getTime()}`;
-      setTeam1Logo(team1LogoImageUrl);
+      console.log("TEAMLOGO 1 URL: " + team1LogoUrl);
+      // const team1LogoResponse = await fetch(team1LogoUrl, {
+      //   headers: {
+      //     Authorization: `Bearer ${git_pat}`,
+      //     "Cache-Control": "no-cache", // Force no cache
+      //     Pragma: "no-cache", // Ensure no cache on legacy proxies
+      //     Expires: "0",
+      //   },
+      // });
+      // const team1LogoData = await team1LogoResponse.json();
+      // const team1LogoImageUrl = `${team1LogoData.download_url}?timestamp=${new Date().getTime()}`;
+      setTeam1Logo(team1LogoUrl);
 
       // Fetch team2Logo.png
       const team2LogoUrl = `${githubApiBaseUrl}team2Logo.png?timestamp=${new Date().getTime()}`;
-      const team2LogoResponse = await fetch(team2LogoUrl, {
-        headers: {
-          Authorization: `Bearer ${git_pat}`,
-          "Cache-Control": "no-cache", // Force no cache
-          Pragma: "no-cache", // Ensure no cache on legacy proxies
-        },
-      });
-      const team2LogoData = await team2LogoResponse.json();
-      const team2LogoImageUrl = `${team2LogoData.download_url}?timestamp=${new Date().getTime()}`;
-      setTeam2Logo(team2LogoImageUrl);
+      console.log("TEAMLOGO 2 URL: " + team2LogoUrl);
+      // const team2LogoResponse = await fetch(team2LogoUrl, {
+      //   headers: {
+      //     Authorization: `Bearer ${git_pat}`,
+      //     "Cache-Control": "no-cache", // Force no cache
+      //     Pragma: "no-cache", // Ensure no cache on legacy proxies
+      //     Expires: "0",
+      //   },
+      // });
+      // const team2LogoData = await team2LogoResponse.json();
+      // const team2LogoImageUrl = `${team2LogoData.download_url}?timestamp=${new Date().getTime()}`;
+      setTeam2Logo(team2LogoUrl);
     } catch (error) {
       alert("Error fetching images from GitHub:", error);
     }
@@ -141,7 +145,9 @@ const Scoreboard_Control = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.scoreboard}>
-        {team1Logo && <ExpoImage source={team1Logo} style={styles.logo} cachePolicy="none" />}
+        {team1Logo && (
+          <ExpoImage key={team1Logo} source={team1Logo} style={styles.logo} cachePolicy="none" />
+        )}
         <View style={styles.scoreControl}>
           <TouchableOpacity style={styles.button} onPress={() => handleScoreChange("team1", 1)}>
             <Text style={styles.buttonText}>+</Text>
@@ -160,7 +166,9 @@ const Scoreboard_Control = ({ route }) => {
             <Text style={styles.buttonText}>-</Text>
           </TouchableOpacity>
         </View>
-        {team2Logo && <ExpoImage source={team2Logo} style={styles.logo} cachePolicy="none" />}
+        {team2Logo && (
+          <ExpoImage key={team2Logo} source={team2Logo} style={styles.logo} cachePolicy="none" />
+        )}
       </View>
       <Text style={styles.faultsText}>FALTAS</Text>
       {/* Fault Counters */}
