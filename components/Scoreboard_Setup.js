@@ -194,7 +194,7 @@ const generateHTMLContent = (
         <script>
           const fetchData = async () => {
             try {
-              const response = await fetch("${url}?v=" + new Date().getTime());
+              const response = await fetch("${url}");
               const data = await response.json();
 
               // Update scoreboard elements
@@ -288,33 +288,33 @@ const Scoreboard_Setup = ({ route }) => {
     setServerUrl(url);
   }, [url]);
 
-  const handleConnectServer = async () => {
-    try {
-      const response = await fetch(serverUrl);
-      if (response.ok) {
-        setIsServerConnected(true);
-        alert("Server connected!");
-        try {
-          const scriptPath = "../assets/scripts/fetchScoreboard.js";
+  // const handleConnectServer = async () => {
+  //   try {
+  //     const response = await fetch(serverUrl);
+  //     if (response.ok) {
+  //       setIsServerConnected(true);
+  //       alert("Server connected!");
+  //       try {
+  //         const scriptPath = "../assets/scripts/fetchScoreboard.js";
 
-          // Read the script file
-          let script = await FileSystem.readAsStringAsync(scriptPath);
+  //         // Read the script file
+  //         let script = await FileSystem.readAsStringAsync(scriptPath);
 
-          // Replace the URL
-          script = script.replace("http://localhost:5000/api/scoreboard", serverUrl);
+  //         // Replace the URL
+  //         script = script.replace("http://localhost:5000/api/scoreboard", serverUrl);
 
-          // Save the updated file back
-          await FileSystem.writeAsStringAsync(scriptPath, script);
-        } catch (error) {
-          console.error("Failed to update the script:", error);
-        }
-      } else {
-        alert("Failed to connect to server.");
-      }
-    } catch (error) {
-      alert("Error connecting to server.");
-    }
-  };
+  //         // Save the updated file back
+  //         await FileSystem.writeAsStringAsync(scriptPath, script);
+  //       } catch (error) {
+  //         console.error("Failed to update the script:", error);
+  //       }
+  //     } else {
+  //       alert("Failed to connect to server.");
+  //     }
+  //   } catch (error) {
+  //     alert("Error connecting to server.");
+  //   }
+  // };
 
   // Custom btoa implementation for base64 encoding
   const btoa = (input) => {
@@ -353,7 +353,7 @@ const Scoreboard_Setup = ({ route }) => {
       const getFileResponse = await fetch(`${githubApiUrl}?ref=${branch}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${gitPat}`,
           Accept: "application/vnd.github.v3+json",
         },
       });
@@ -385,7 +385,7 @@ const Scoreboard_Setup = ({ route }) => {
     const uploadResponse = await fetch(githubApiUrl, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${gitPat}`,
         Accept: "application/vnd.github.v3+json",
       },
       body: JSON.stringify({
@@ -437,14 +437,14 @@ const Scoreboard_Setup = ({ route }) => {
         const asset = Asset.fromModule(logoAsset);
         await asset.downloadAsync(); // Ensure the asset is downloaded
 
-        // Now we have the local URI of the asset
-        const assetUri = asset.localUri;
-        if (!assetUri) {
-          throw new Error("Unable to resolve local URI for the asset.");
-        }
-
-        // Read the asset as a base64 string
-        contentBase64 = await FileSystem.readAsStringAsync(assetUri, {
+        // Copy the asset to a writable directory (FileSystem.documentDirectory)
+        const localUri = `${FileSystem.documentDirectory}${asset.name}`;
+        await FileSystem.copyAsync({
+          from: asset.localUri || asset.uri,
+          to: localUri,
+        });
+        // Read the image file content as base64 from the new local path
+        contentBase64 = await FileSystem.readAsStringAsync(localUri, {
           encoding: FileSystem.EncodingType.Base64,
         });
       }
@@ -487,7 +487,7 @@ const Scoreboard_Setup = ({ route }) => {
     try {
       // Save the file locally first
       await FileSystem.writeAsStringAsync(fileUri, htmlContent);
-      alert("HTML file has been saved locally!");
+      // alert("HTML file has been saved locally!");
 
       // Read the HTML file content to upload it
       const htmlFileContent = await FileSystem.readAsStringAsync(fileUri);
@@ -513,7 +513,7 @@ const Scoreboard_Setup = ({ route }) => {
         await uploadLogoToGitHub(team2, team2Logo, "team2Logo.png", "Uploaded team2 logo");
       }
 
-      alert("Files have been uploaded to GitHub!");
+      // alert("Files have been uploaded to GitHub!");
       navigation.navigate("Home"); // Navigate to home after the upload
     } catch (error) {
       console.error("Error saving and uploading files:", error);

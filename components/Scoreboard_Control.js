@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { Image as ExpoImage } from "expo-image";
 
 // Load credentials from a local JSON file
 const creds = require("../creds.json");
@@ -26,28 +27,33 @@ const Scoreboard_Control = ({ route }) => {
       const githubApiBaseUrl = `https://api.github.com/repos/${git_user}/${git_repo}/contents/`;
 
       // Fetch team1Logo.png
-      const team1LogoUrl = `${githubApiBaseUrl}team1Logo.png`;
+      const team1LogoUrl = `${githubApiBaseUrl}team1Logo.png?timestamp=${new Date().getTime()}`;
+      console.log("TEAMLOGO URL: " + team1LogoUrl);
       const team1LogoResponse = await fetch(team1LogoUrl, {
         headers: {
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${git_pat}`,
+          "Cache-Control": "no-cache", // Force no cache
+          Pragma: "no-cache", // Ensure no cache on legacy proxies
         },
       });
       const team1LogoData = await team1LogoResponse.json();
-      const team1LogoImageUrl = team1LogoData.download_url;
+      const team1LogoImageUrl = `${team1LogoData.download_url}?timestamp=${new Date().getTime()}`;
       setTeam1Logo(team1LogoImageUrl);
 
       // Fetch team2Logo.png
-      const team2LogoUrl = `${githubApiBaseUrl}team2Logo.png`;
+      const team2LogoUrl = `${githubApiBaseUrl}team2Logo.png?timestamp=${new Date().getTime()}`;
       const team2LogoResponse = await fetch(team2LogoUrl, {
         headers: {
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${git_pat}`,
+          "Cache-Control": "no-cache", // Force no cache
+          Pragma: "no-cache", // Ensure no cache on legacy proxies
         },
       });
       const team2LogoData = await team2LogoResponse.json();
-      const team2LogoImageUrl = team2LogoData.download_url;
+      const team2LogoImageUrl = `${team2LogoData.download_url}?timestamp=${new Date().getTime()}`;
       setTeam2Logo(team2LogoImageUrl);
     } catch (error) {
-      console.error("Error fetching images from GitHub:", error);
+      alert("Error fetching images from GitHub:", error);
     }
   };
 
@@ -135,7 +141,7 @@ const Scoreboard_Control = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.scoreboard}>
-        {team1Logo && <Image source={{ uri: team1Logo }} style={styles.logo} />}
+        {team1Logo && <ExpoImage source={team1Logo} style={styles.logo} cachePolicy="none" />}
         <View style={styles.scoreControl}>
           <TouchableOpacity style={styles.button} onPress={() => handleScoreChange("team1", 1)}>
             <Text style={styles.buttonText}>+</Text>
@@ -154,7 +160,7 @@ const Scoreboard_Control = ({ route }) => {
             <Text style={styles.buttonText}>-</Text>
           </TouchableOpacity>
         </View>
-        {team2Logo && <Image source={{ uri: team2Logo }} style={styles.logo} />}
+        {team2Logo && <ExpoImage source={team2Logo} style={styles.logo} cachePolicy="none" />}
       </View>
       <Text style={styles.faultsText}>FALTAS</Text>
       {/* Fault Counters */}
@@ -203,55 +209,53 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "90%",
-    height: Dimensions.get("window").height * 0.2, // Top 30% of the screen
-    marginTop: 20,
+    height: Dimensions.get("window").height * 0.25, // Reduced height for the scoreboard
+    marginTop: 10,
   },
   logo: {
-    width: Dimensions.get("window").width / 6,
-    height: Dimensions.get("window").width / 6,
+    width: Dimensions.get("window").width / 8, // Smaller logo size
+    height: Dimensions.get("window").width / 8,
     resizeMode: "contain",
   },
   scoreControl: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 20,
+    marginHorizontal: 10, // Reduced horizontal space
   },
   scoreText: {
-    fontSize: 36,
+    fontSize: 28, // Reduced font size for the score
     fontWeight: "bold",
-    marginVertical: 10,
+    marginVertical: 5, // Reduced margin
+  },
+  faultsText: {
+    fontSize: 24, // Reduced font size for the fault counter
+    fontWeight: "bold",
+    marginVertical: 5,
   },
   button: {
     backgroundColor: "#007AFF",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 5, // Reduced padding
+    paddingHorizontal: 10,
     borderRadius: 5,
     marginVertical: 5,
   },
   buttonText: {
     color: "white",
-    fontSize: 24,
+    fontSize: 20, // Smaller button text
     fontWeight: "bold",
   },
   faltasContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    width: "50%",
-    height: "10%",
-    marginTop: 100,
+    width: "90%",
+    marginTop: 10, // Reduced margin between sections
   },
   faltasControl: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-  },
-  faultsText: {
-    color: "black",
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 20,
   },
   periodControl: {
     flexDirection: "column",
@@ -270,23 +274,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 70,
+    marginTop: 80, // Reduced margin for the period container
   },
   periodText: {
-    fontSize: 24,
+    fontSize: 20, // Smaller font size for the period
     fontWeight: "bold",
     marginHorizontal: 10,
   },
   resetButton: {
     backgroundColor: "#FF3B30",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 5, // Reduced padding for the reset button
+    paddingHorizontal: 15,
     borderRadius: 5,
-    marginLeft: 20,
+    marginLeft: 10,
   },
   resetButtonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16, // Smaller text for the reset button
     fontWeight: "bold",
   },
 });

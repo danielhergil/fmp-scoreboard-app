@@ -18,7 +18,12 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
-      "expo-asset"
+      [
+        "expo-asset",
+        {
+          "assets": ["assets/logos"]
+        }
+      ]
     ],
     "ios": {
       "supportsTablet": true
@@ -28,9 +33,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO", "android.permission.INTERNET"],
       "package": "com.daniel.hergil.fmpscoreboardapp"
     },
     "web": {
